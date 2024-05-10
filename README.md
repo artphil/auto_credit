@@ -34,7 +34,7 @@ Os requisitos são:
 - Banco: financeiro, responsável pelas tranferências de valores
 - Agência de risco: avaliador, responsável por emitir um score ao solicittante
 
-### Relações
+### Entidades e relacionamentos
 
 ```mermaid
 classDiagram
