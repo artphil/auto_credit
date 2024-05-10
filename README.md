@@ -53,8 +53,8 @@ Employee: float salary
 Bank: int id
 Bank: str code
 Bank: str name
+Person --> User
 Person --> Employee
 Person --> Company
-Person --> User
 Person --> Bank
 ```
