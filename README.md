@@ -36,6 +36,15 @@ Os requisitos são:
 ### Relações
 
 ```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
+
+```mermaid
+classDiagram
 Person: int id
 Person: str cpf
 Person: str name
