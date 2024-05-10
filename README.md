@@ -32,31 +32,29 @@ Os requisitos são:
 - Cliente: solicitante, deve estar vinculado a empresa parceira e ter score válido
 - Empresa: garantidora, deve estar associada a concessora
 - Banco: financeiro, responsável pelas tranferências de valores
+- Agência de risco: avaliador, responsável por emitir um score ao solicittante
 
 ### Relações
-
-```mermaid
-graph TD;
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;
-```
 
 ```mermaid
 classDiagram
 Person: int id
 Person: str cpf
 Person: str name
-Person --> User
-Person --> Company
-Person --> Employee
 User: int id
 User: str email
 User: str password
+User: int role
 Company: int id
 Company: str cnpj
 Company: str corp_reason
 Employee: int id
 Employee: float salary
+Bank: int id
+Bank: str code
+Bank: str name
+Person --> Employee
+Person --> Company
+Person --> User
+Person --> Bank
 ```
