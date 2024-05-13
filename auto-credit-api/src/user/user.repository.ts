@@ -1,5 +1,7 @@
+import { Injectable } from '@nestjs/common';
 import { UserModel } from './user.model';
 
+@Injectable()
 export class UserRepository {
   private users: UserModel[] = [];
 
