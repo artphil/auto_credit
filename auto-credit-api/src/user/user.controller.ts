@@ -27,7 +27,7 @@ export class UserController {
 
   @Post()
   async create(@Body() userData: UserCreateDTO) {
-    return this.userRepository.save(userData);
+    return this.userRepository.create(userData);
   }
 
   @Put(':id')

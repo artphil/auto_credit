@@ -20,7 +20,7 @@ export class UserRepository {
     return response;
   }
 
-  async save(userData: UserCreateDTO) {
+  async create(userData: UserCreateDTO) {
     const userExist = this.users.find((user) => user.email === userData.email);
 
     if (userExist) throw new BadRequestException('Email já cadastrado');
