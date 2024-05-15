@@ -1,6 +1,3 @@
-import { UserCreateDTO } from './dto/userCreate.dto';
-import { UserUpdateDTO } from './dto/userUpdate.dto';
-import { UserRepository } from './user.repository';
 import {
   Body,
   Controller,
@@ -10,33 +7,36 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { UserService } from './user.service';
+import { UserCreateDTO } from './dto/userCreate.dto';
+import { UserUpdateDTO } from './dto/userUpdate.dto';
 
 @Controller('user')
 export class UserController {
-  constructor(private userRepository: UserRepository) {}
+  constructor(private userService: UserService) {}
 
-  @Get()
+  @Get(':id')
   async getOne(@Param('id') id) {
-    return this.userRepository.get(id);
+    return await this.userService.getOne(id);
   }
 
   @Get()
   async getAll() {
-    return this.userRepository.getAll();
+    return await this.userService.getAll();
   }
 
   @Post()
   async create(@Body() userData: UserCreateDTO) {
-    return this.userRepository.create(userData);
+    return await this.userService.create(userData);
   }
 
   @Put(':id')
   async update(@Param('id') id, @Body() userData: UserUpdateDTO) {
-    return await this.userRepository.update(id, userData);
+    return await this.userService.update(id, userData);
   }
 
   @Delete(':id')
   async remove(@Param('id') id) {
-    return await this.userRepository.remove(id);
+    return await this.userService.remove(id);
   }
 }
