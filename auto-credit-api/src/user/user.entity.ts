@@ -32,12 +32,12 @@ export class UserEntity {
   @Column({ name: 'password', length: 255, nullable: false, select: false })
   password: string;
 
-  @CreateDateColumn({ name: 'created_at' })
+  @CreateDateColumn({ name: 'created_at', select: false })
   createdAt: string;
 
-  @UpdateDateColumn({ name: 'updated_at' })
+  @UpdateDateColumn({ name: 'updated_at', select: false })
   updatedAt: string;
 
-  @DeleteDateColumn({ name: 'deleted_at' })
+  @DeleteDateColumn({ name: 'deleted_at', select: false })
   deletedAt: string;
 }
