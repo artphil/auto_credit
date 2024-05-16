@@ -6,8 +6,20 @@ Mini sistema que avialia e concede crédito consigniado de forma automática
 
 ### API
 
-Dentro da pasta `auto-credit-api` executar o comando
-`npm start`
+Dentro da pasta `auto-credit-api`
+
+- Criar um arquivo de nome `.env` coma as configurações de acesso ao banco (Postegres) no seguinte formato
+
+```sh
+DB_HOST=<HOST>
+DB_PORT=<PORT>
+DB_USERNAME=<USERNAME>
+DB_PASSWORD=<PASSWORD>
+DB_NAME=<SCHEMA>
+```
+
+- Executar o comando
+  `npm start`
 
 ### Interface
 
