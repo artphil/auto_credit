@@ -10,13 +10,14 @@ import {
 import { UserService } from './user.service';
 import { UserCreateDTO } from './dto/userCreate.dto';
 import { UserUpdateDTO } from './dto/userUpdate.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('User')
 @Controller('user')
 export class UserController {
   constructor(private service: UserService) {}
-
   @Get(':id')
-  async getOne(@Param('id') id) {
+  async getOne(@Param('id') id: string) {
     return await this.service.getOne(id);
   }
 
@@ -31,12 +32,12 @@ export class UserController {
   }
 
   @Put(':id')
-  async update(@Param('id') id, @Body() userData: UserUpdateDTO) {
+  async update(@Param('id') id: string, @Body() userData: UserUpdateDTO) {
     return await this.service.update(id, userData);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id) {
+  async remove(@Param('id') id: string) {
     return await this.service.remove(id);
   }
 }

@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   Column,
   CreateDateColumn,
@@ -9,15 +10,25 @@ import {
 
 @Entity({ name: 'users' })
 export class UserEntity {
+  @ApiProperty({
+    description: 'Identificador único',
+    example: 'b7982992-dee4-43eb-b54e-ca48517d13b1',
+  })
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @ApiProperty({ description: 'Nome de usuário', example: 'Nepomuceno' })
   @Column({ name: 'email', length: 100, nullable: false })
   email: string;
 
+  @ApiProperty({ description: 'Email', example: 'nepo@email.com' })
   @Column({ name: 'username', length: 70, nullable: false })
   username: string;
 
+  @ApiProperty({
+    description: 'Senha: deve ter no mínimo 6 caracteres',
+    example: '123456',
+  })
   @Column({ name: 'password', length: 255, nullable: false, select: false })
   password: string;
 

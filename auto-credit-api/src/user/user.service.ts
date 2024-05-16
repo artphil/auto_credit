@@ -44,10 +44,8 @@ export class UserService {
       if (exists.username === data.username)
         throw new BadRequestException('Usuário já cadastrado');
     }
-
     const newUser = await this.repository.save(data);
-
-    return new UserResponseDTO(newUser.id, newUser.username);
+    return new UserResponseDTO(newUser);
   }
 
   async update(id: string, data: UserUpdateDTO) {

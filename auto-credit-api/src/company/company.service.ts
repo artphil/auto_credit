@@ -53,7 +53,8 @@ export class CompanyService {
     if (exists !== null) {
       throw new BadRequestException('CNPJ já cadastrado');
     }
-    return this.repository.save(data);
+    const newCompany = await this.repository.save(data);
+    return new CompanyResponseDTO(newCompany);
   }
 
   async update(id: string, userData: CompanyCreateDTO) {

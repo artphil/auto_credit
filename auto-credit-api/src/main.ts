@@ -17,7 +17,6 @@ async function bootstrap() {
     .setTitle('Auto Credit API')
     .setDescription('API for the Auto Credit System')
     .setVersion('0.0.1')
-    .addTag('credit')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('doc', app, document);

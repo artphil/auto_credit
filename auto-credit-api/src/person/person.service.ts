@@ -8,6 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PersonCreateDTO } from './dto/personCreate.dto';
 import { validate } from 'uuid';
+import { PersonResponseDTO } from './dto/personResponse.dto';
 
 @Injectable()
 export class PersonService {
@@ -25,6 +26,12 @@ export class PersonService {
     if (data === null) throw new NotFoundException('Pessoa não encontrada');
 
     return data;
+  }
+
+  async getAll() {
+    const list = await this.repository.find();
+
+    return list.map((person) => new PersonResponseDTO(person));
   }
 
   async getbyUser(userId: string) {
@@ -46,7 +53,8 @@ export class PersonService {
     if (exists !== null) {
       throw new BadRequestException('CPF já cadastrado');
     }
-    return this.repository.save(data);
+    const newPerson = await this.repository.save(data);
+    return new PersonResponseDTO(newPerson);
   }
 
   async update(id: string, userData: PersonCreateDTO) {

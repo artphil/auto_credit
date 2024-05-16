@@ -9,10 +9,17 @@ import {
 } from '@nestjs/common';
 import { PersonService } from './person.service';
 import { PersonCreateDTO } from './dto/personCreate.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Person')
 @Controller('person')
 export class PersonController {
   constructor(private service: PersonService) {}
+
+  @Get()
+  async getAll() {
+    return await this.service.getAll();
+  }
 
   @Get(':id')
   async getOne(@Param('id') id) {
