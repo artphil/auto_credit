@@ -38,30 +38,30 @@ Os requisitos são:
 
 ```mermaid
 classDiagram
-People: uuid id
-People: str cpf
-People: str name
-Users: uuid id
-Users: str email
-Users: str password
-Users: int role
-Companies: uuid id
-Companies: str cnpj
-Companies: str corp_reason
-Employments: uuid id
-Employments: float salary
-Banks: uuid id
-Banks: str code
-Banks: str name
-Loans: uuid id
-Loans: int score
-Loans: str status
+Person: uuid id
+Person: str cpf
+Person: str name
+User: uuid id
+User: str email
+User: str password
+User: int role
+Company: uuid id
+Company: str cnpj
+Company: str reason
+Employment: uuid id
+Employment: float salary
+Bank: uuid id
+Bank: str code
+Bank: str name
+Loan: uuid id
+Loan: int score
+Loan: str status
 
-People --> Users
-Employments --> People
-Employments --> Companies
-Companies --> People
-People --> Banks
-Loans --> People
-Loans --> Companies
+Person --> User
+Employment --> Person
+Employment --> Company
+Company --> Person
+Person --> Bank
+Loan --> Person
+Loan --> Company
 ```
