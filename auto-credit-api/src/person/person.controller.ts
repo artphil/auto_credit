@@ -22,12 +22,12 @@ export class PersonController {
   }
 
   @Get(':id')
-  async getOne(@Param('id') id) {
+  async getOne(@Param('id') id: string) {
     return await this.service.getOne(id);
   }
 
   @Get('user/:id')
-  async getbyUser(@Param('id') id) {
+  async getbyUser(@Param('id') id: string) {
     return await this.service.getbyUser(id);
   }
 
@@ -37,12 +37,12 @@ export class PersonController {
   }
 
   @Put(':id')
-  async update(@Param('id') id, @Body() personData: PersonCreateDTO) {
+  async update(@Param('id') id: string, @Body() personData: PersonCreateDTO) {
     return await this.service.update(id, personData);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id) {
+  async remove(@Param('id') id: string) {
     return await this.service.remove(id);
   }
 }

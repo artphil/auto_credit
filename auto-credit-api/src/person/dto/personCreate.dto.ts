@@ -16,7 +16,7 @@ export class PersonCreateDTO {
 
   @ApiPropertyOptional({
     description: 'Usuário vinculado',
-    example: '{ id: b7982992-dee4-43eb-b54e-ca48517d13b1 }',
+    example: { id: 'b7982992-dee4-43eb-b54e-ca48517d13b1' },
   })
   @IsOptional()
   user: UserEntity;

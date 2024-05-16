@@ -47,20 +47,35 @@ export class CompanyService {
   }
 
   async create(data: CompanyCreateDTO) {
-    const exists = await this.repository.findOne({
+    const cnpj = await this.repository.findOne({
       where: { cnpj: data.cnpj },
     });
-    if (exists !== null) {
+    if (cnpj !== null) {
       throw new BadRequestException('CNPJ já cadastrado');
+    }
+    if (data.representative) {
+      const company = await this.repository.findOne({
+        where: { representative: { id: data.representative.id } },
+      });
+      if (company !== null)
+        throw new BadRequestException('Representante já cadastrado');
     }
     const newCompany = await this.repository.save(data);
     return new CompanyResponseDTO(newCompany);
   }
 
-  async update(id: string, userData: CompanyCreateDTO) {
+  async update(id: string, data: CompanyCreateDTO) {
     if (!validate(id)) throw new BadRequestException('ID inválido');
 
-    await this.repository.update(id, userData);
+    if (data.representative) {
+      const company = await this.repository.findOne({
+        where: { representative: { id: data.representative.id } },
+      });
+      if (company !== null && company.id !== id)
+        throw new BadRequestException('Representante já cadastrado');
+    }
+
+    await this.repository.update(id, data);
     return await this.getOne(id);
   }
 

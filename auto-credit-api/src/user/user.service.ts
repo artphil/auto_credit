@@ -35,13 +35,13 @@ export class UserService {
   }
 
   async create(data: UserCreateDTO) {
-    const exists = await this.repository.findOne({
+    const emailOrUsername = await this.repository.findOne({
       where: [{ email: data.email }, { username: data.username }],
     });
-    if (exists !== null) {
-      if (exists.email === data.email)
+    if (emailOrUsername !== null) {
+      if (emailOrUsername.email === data.email)
         throw new BadRequestException('Email já cadastrado');
-      if (exists.username === data.username)
+      if (emailOrUsername.username === data.username)
         throw new BadRequestException('Usuário já cadastrado');
     }
     const newUser = await this.repository.save(data);
