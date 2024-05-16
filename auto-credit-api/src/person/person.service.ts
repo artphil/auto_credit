@@ -34,7 +34,7 @@ export class PersonService {
     return list.map((person) => new PersonResponseDTO(person));
   }
 
-  async getbyUser(userId: string) {
+  async getByUser(userId: string) {
     if (!validate(userId)) throw new BadRequestException('ID inválido');
 
     const data = await this.repository.findOne({

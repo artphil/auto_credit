@@ -28,7 +28,7 @@ export class PersonController {
 
   @Get('user/:id')
   async getbyUser(@Param('id') id: string) {
-    return await this.service.getbyUser(id);
+    return await this.service.getByUser(id);
   }
 
   @Post()

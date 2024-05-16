@@ -7,12 +7,14 @@ import { AppService } from './app.service';
 import { UserModule } from 'src/user/user.module';
 import { PersonModule } from 'src/person/person.module';
 import { CompanyModule } from 'src/company/company.module';
+import { EmploymentModule } from 'src/employment/employment.module';
 
 @Module({
   imports: [
     UserModule,
     PersonModule,
     CompanyModule,
+    EmploymentModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
