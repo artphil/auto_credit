@@ -8,22 +8,22 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { UserEntity } from 'src/user/user.entity';
+import { PersonEntity } from 'src/person/person.entity';
 
-@Entity({ name: 'people' })
-export class PersonEntity {
+@Entity({ name: 'companies' })
+export class CompanyEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ name: 'name', length: 100, nullable: false })
   name: string;
 
-  @Column({ name: 'cpf', length: 15, nullable: false })
-  cpf: string;
+  @Column({ name: 'cnpj', length: 20, nullable: false })
+  cnpj: string;
 
-  @OneToOne(() => UserEntity, { eager: true })
+  @OneToOne(() => PersonEntity, { eager: true })
   @JoinColumn()
-  user: UserEntity;
+  representative: PersonEntity;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: string;

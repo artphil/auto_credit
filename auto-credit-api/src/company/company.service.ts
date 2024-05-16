@@ -3,17 +3,18 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { PersonEntity } from './person.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CompanyEntity } from './company.entity';
 import { Repository } from 'typeorm';
-import { PersonCreateDTO } from './dto/personCreate.dto';
 import { validate } from 'uuid';
+import { CompanyCreateDTO } from './dto/companyCreate.dto';
+import { CompanyResponseDTO } from './dto/companyResponse.dto';
 
 @Injectable()
-export class PersonService {
+export class CompanyService {
   constructor(
-    @InjectRepository(PersonEntity)
-    private readonly repository: Repository<PersonEntity>,
+    @InjectRepository(CompanyEntity)
+    private readonly repository: Repository<CompanyEntity>,
   ) {}
 
   async getOne(id: string) {
@@ -22,34 +23,40 @@ export class PersonService {
     const data = await this.repository.findOne({
       where: { id: id },
     });
-    if (data === null) throw new NotFoundException('Pessoa não encontrada');
+    if (data === null) throw new NotFoundException('Empresa não encontrada');
 
     return data;
   }
 
-  async getbyUser(userId: string) {
+  async getAll() {
+    const list = await this.repository.find();
+
+    return list.map((company) => new CompanyResponseDTO(company));
+  }
+
+  async getbyPerson(userId: string) {
     if (!validate(userId)) throw new BadRequestException('ID inválido');
 
     const data = await this.repository.findOne({
-      relations: { user: true },
-      where: { user: { id: userId } },
+      relations: { representative: true },
+      where: { representative: { id: userId } },
     });
-    if (data === null) throw new NotFoundException('Pessoa não encontrada');
+    if (data === null) throw new NotFoundException('Empresa não encontrada');
 
     return data;
   }
 
-  async create(data: PersonCreateDTO) {
+  async create(data: CompanyCreateDTO) {
     const exists = await this.repository.findOne({
-      where: { cpf: data.cpf },
+      where: { cnpj: data.cnpj },
     });
     if (exists !== null) {
-      throw new BadRequestException('CPF já cadastrado');
+      throw new BadRequestException('CNPJ já cadastrado');
     }
     return this.repository.save(data);
   }
 
-  async update(id: string, userData: PersonCreateDTO) {
+  async update(id: string, userData: CompanyCreateDTO) {
     if (!validate(id)) throw new BadRequestException('ID inválido');
 
     await this.repository.update(id, userData);

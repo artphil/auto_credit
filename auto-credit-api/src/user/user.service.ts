@@ -9,52 +9,58 @@ import { UserEntity } from './user.entity';
 import { UserResponseDTO } from './dto/userResponse.dto';
 import { UserCreateDTO } from './dto/userCreate.dto';
 import { UserUpdateDTO } from './dto/userUpdate.dto';
+import { validate } from 'uuid';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
+    private readonly repository: Repository<UserEntity>,
   ) {}
 
   async getOne(id: string) {
-    const userData = await this.userRepository.findOne({
+    if (!validate(id)) throw new BadRequestException('ID inválido');
+
+    const data = await this.repository.findOne({
       where: { id: id },
     });
-    if (userData === null)
-      throw new NotFoundException('Usuário não encontrado');
+    if (data === null) throw new NotFoundException('Usuário não encontrado');
 
-    return userData;
+    return data;
   }
 
   async getAll() {
-    const userlist = await this.userRepository.find();
+    const userlist = await this.repository.find();
     return userlist.map((user) => new UserResponseDTO(user.id, user.username));
   }
 
-  async create(userData: UserCreateDTO) {
-    const userExist = await this.userRepository.findOne({
-      where: [{ email: userData.email }, { username: userData.username }],
+  async create(data: UserCreateDTO) {
+    const exists = await this.repository.findOne({
+      where: [{ email: data.email }, { username: data.username }],
     });
-    if (userExist !== null) {
-      if (userExist.email === userData.email)
+    if (exists !== null) {
+      if (exists.email === data.email)
         throw new BadRequestException('Email já cadastrado');
-      if (userExist.username === userData.username)
+      if (exists.username === data.username)
         throw new BadRequestException('Usuário já cadastrado');
     }
 
-    const newUser = await this.userRepository.save(userData);
+    const newUser = await this.repository.save(data);
 
     return new UserResponseDTO(newUser.id, newUser.username);
   }
 
-  async update(id: string, userData: UserUpdateDTO) {
-    await this.userRepository.update(id, userData);
+  async update(id: string, data: UserUpdateDTO) {
+    if (!validate(id)) throw new BadRequestException('ID inválido');
+
+    await this.repository.update(id, data);
     return await this.getOne(id);
   }
 
   async remove(id: string) {
+    if (!validate(id)) throw new BadRequestException('ID inválido');
+
     await this.getOne(id);
-    await this.userRepository.delete(id);
+    await this.repository.delete(id);
   }
 }

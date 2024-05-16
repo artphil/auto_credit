@@ -13,30 +13,30 @@ import { UserUpdateDTO } from './dto/userUpdate.dto';
 
 @Controller('user')
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(private service: UserService) {}
 
   @Get(':id')
   async getOne(@Param('id') id) {
-    return await this.userService.getOne(id);
+    return await this.service.getOne(id);
   }
 
   @Get()
   async getAll() {
-    return await this.userService.getAll();
+    return await this.service.getAll();
   }
 
   @Post()
   async create(@Body() userData: UserCreateDTO) {
-    return await this.userService.create(userData);
+    return await this.service.create(userData);
   }
 
   @Put(':id')
   async update(@Param('id') id, @Body() userData: UserUpdateDTO) {
-    return await this.userService.update(id, userData);
+    return await this.service.update(id, userData);
   }
 
   @Delete(':id')
   async remove(@Param('id') id) {
-    return await this.userService.remove(id);
+    return await this.service.remove(id);
   }
 }

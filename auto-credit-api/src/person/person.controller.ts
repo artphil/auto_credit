@@ -12,30 +12,30 @@ import { PersonCreateDTO } from './dto/personCreate.dto';
 
 @Controller('person')
 export class PersonController {
-  constructor(private personService: PersonService) {}
+  constructor(private service: PersonService) {}
 
   @Get(':id')
   async getOne(@Param('id') id) {
-    return await this.personService.getOne(id);
+    return await this.service.getOne(id);
   }
 
   @Get('user/:id')
   async getbyUser(@Param('id') id) {
-    return await this.personService.getbyUser(id);
+    return await this.service.getbyUser(id);
   }
 
   @Post()
   async create(@Body() personData: PersonCreateDTO) {
-    return await this.personService.create(personData);
+    return await this.service.create(personData);
   }
 
   @Put(':id')
   async update(@Param('id') id, @Body() personData: PersonCreateDTO) {
-    return await this.personService.update(id, personData);
+    return await this.service.update(id, personData);
   }
 
   @Delete(':id')
   async remove(@Param('id') id) {
-    return await this.personService.remove(id);
+    return await this.service.remove(id);
   }
 }
