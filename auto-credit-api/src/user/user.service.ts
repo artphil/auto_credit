@@ -30,8 +30,8 @@ export class UserService {
   }
 
   async getAll() {
-    const userlist = await this.repository.find();
-    return userlist.map((user) => new UserResponseDTO(user.id, user.username));
+    const list = await this.repository.find();
+    return list.map((user) => new UserResponseDTO(user));
   }
 
   async create(data: UserCreateDTO) {
