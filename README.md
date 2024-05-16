@@ -68,6 +68,9 @@ Bank: str name
 Loan: uuid id
 Loan: int score
 Loan: str status
+Loan: float salary
+Loan: float amount
+Loan: int installments
 
 Person --> User
 Employment --> Person
