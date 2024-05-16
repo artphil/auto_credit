@@ -70,7 +70,7 @@ Loan: int score
 Loan: str status
 Loan: float salary
 Loan: float amount
-Loan: int installments
+Loan: int times
 
 Person --> User
 Employment --> Person
