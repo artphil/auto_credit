@@ -19,7 +19,6 @@ export class UserService {
 
   async getOne(id: string) {
     const userData = await this.userRepository.findOne({
-      select: { password: false },
       where: { id: id },
     });
     if (userData === null)
