@@ -16,7 +16,7 @@ export class PersonService {
       where: { id: id },
     });
     if (personData === null)
-      throw new NotFoundException('Usuário não encontrado');
+      throw new NotFoundException('Pessoa não encontrada');
 
     return personData;
   }
@@ -27,7 +27,7 @@ export class PersonService {
       where: { user: { id: userId } },
     });
     if (personData === null)
-      throw new NotFoundException('Usuário não encontrado');
+      throw new NotFoundException('Pessoa não encontrada');
 
     return personData;
   }
