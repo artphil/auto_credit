@@ -3,7 +3,7 @@ import "styled-components";
 export const Theme = {
   colors: {
     neutral: "#FAFAFA",
-    neutralLight: "#FFFFFF",
+    neutralLight: "#D6DBDB",
     neutralMedium: "#535F5F",
     neutralDark: "#2A3535",
     primary: "#057D88",
@@ -12,6 +12,8 @@ export const Theme = {
     secondary: "#FF7600",
     secondaryLight: "#FFE5D5",
     background: "#DEE1E6",
+    white: "#FFFFFF",
+    black: "#000000",
   },
   devices: {
     laptop: "1200px",
