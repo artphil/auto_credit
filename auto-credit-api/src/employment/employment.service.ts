@@ -49,6 +49,7 @@ export class EmploymentService {
 
     return data;
   }
+
   async getByCompany(companyId: string) {
     if (!validate(companyId)) throw new BadRequestException('ID inválido');
 

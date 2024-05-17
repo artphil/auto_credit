@@ -8,6 +8,7 @@ import { UserModule } from 'src/user/user.module';
 import { PersonModule } from 'src/person/person.module';
 import { CompanyModule } from 'src/company/company.module';
 import { EmploymentModule } from 'src/employment/employment.module';
+import { LoanModule } from 'src/loan/loan.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { EmploymentModule } from 'src/employment/employment.module';
     PersonModule,
     CompanyModule,
     EmploymentModule,
+    LoanModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),

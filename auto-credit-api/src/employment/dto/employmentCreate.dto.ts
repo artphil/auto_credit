@@ -20,7 +20,7 @@ export class EmploymentCreateDTO {
 
   @ApiProperty({
     description: 'Salário',
-    example: '1000,26',
+    example: 1000.26,
   })
   @IsNotEmpty({ message: 'O salário é obrigatório' })
   salary: number;

@@ -22,7 +22,13 @@ export class EmploymentEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ name: 'salary', nullable: false })
+  @Column({
+    name: 'salary',
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    nullable: false,
+  })
   salary: number;
 
   @ApiProperty({
