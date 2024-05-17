@@ -2,7 +2,8 @@ import "styled-components";
 
 export const Theme = {
   colors: {
-    neutral: "#FFFFFF",
+    neutral: "#FAFAFA",
+    neutralLight: "#FFFFFF",
     neutralMedium: "#535F5F",
     neutralDark: "#2A3535",
     primary: "#057D88",
