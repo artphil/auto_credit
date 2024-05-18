@@ -2,10 +2,25 @@ import Header from "components/header/Header";
 import { Button, Main } from "global/Global.styles";
 import { ArrowLeftIcon, ButtonGroup, Container, PageHeader, PageHeaderPath, PageHeaderTilte, Title } from "./Loan.styles";
 import LoanAmount from "./LoanAmount";
+import { useState } from "react";
+
+const enum steps { AMOUNT, INSTALLMENTS, SUMMARY }
 
 function LoanPage() {
   const pagePath = 'Home';
   const pageName = 'Crédito Consignado';
+
+  const [applicationStep, setApplicationStep] = useState(0);
+
+  function prevStep() {
+    if (applicationStep > steps['AMOUNT'])
+      setApplicationStep(applicationStep - 1);
+  }
+
+  function nextStep() {
+    if (applicationStep < steps['SUMMARY'])
+      setApplicationStep(applicationStep + 1);
+  }
 
   return (
     <Main>
@@ -14,18 +29,32 @@ function LoanPage() {
         <PageHeader>
           <ArrowLeftIcon />
           <PageHeaderTilte>
-            <PageHeaderPath>{pagePath}/{pageName}</PageHeaderPath>
+            <PageHeaderPath>{pagePath} / {pageName}</PageHeaderPath>
 
             <Title>
               {pageName}
             </Title>
           </PageHeaderTilte>
         </PageHeader>
-        <LoanAmount />
+        {
+          applicationStep === steps['AMOUNT'] &&
+          <LoanAmount />
+        }
         <ButtonGroup>
-
-          <Button className="outlined">Voltar</Button>
-          <Button>Simular empréstimo</Button>
+          <Button
+            className="outlined"
+            onClick={prevStep}
+          >Voltar</Button>
+          {
+            applicationStep < steps['SUMMARY'] &&
+            <Button
+              onClick={nextStep}
+            >Seguinte</Button>
+          }
+          {
+            applicationStep === steps['SUMMARY'] &&
+            <Button>Solicitar empréstimo</Button>
+          }
         </ButtonGroup>
       </Container>
     </Main>
