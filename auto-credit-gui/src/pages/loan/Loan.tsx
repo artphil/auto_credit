@@ -4,6 +4,7 @@ import { ArrowLeftIcon, ButtonGroup, Container, PageHeader, PageHeaderPath, Page
 import LoanAmount from "./LoanAmount";
 import { useState } from "react";
 import LoanInstallments from "./LoanInstallments";
+import LoanSummary from "./LoanSummary";
 
 const enum steps { AMOUNT, INSTALLMENTS, SUMMARY }
 
@@ -44,6 +45,10 @@ function LoanPage() {
         {
           applicationStep === steps['INSTALLMENTS'] &&
           <LoanInstallments />
+        }
+        {
+          applicationStep === steps['SUMMARY'] &&
+          <LoanSummary />
         }
         <ButtonGroup>
           <Button

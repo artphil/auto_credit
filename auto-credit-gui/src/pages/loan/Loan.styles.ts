@@ -14,6 +14,7 @@ export const Container = styled.div`
 
 export const PageHeader = styled.div`
   display: flex;
+  margin: 1rem 0;
 `;
 export const PageHeaderPath = styled.div`
   color: ${(props) => props.theme.colors.neutralDark};
@@ -62,4 +63,25 @@ export const InstallmentGroup = styled.div`
   flex-wrap: wrap;
   margin: 1rem 0;
   gap: 1rem;
+`;
+
+export const SummaryFieldGroup = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin: 2rem 1rem;
+  gap: 1rem;
+`;
+
+export const SummaryField = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  margin-right: auto;
+  font-weight: 400;
+  gap: 1rem;
+  color: ${(props) => props.theme.colors.neutralDark};
+
+  span {
+    font-weight: 600;
+  }
 `;
