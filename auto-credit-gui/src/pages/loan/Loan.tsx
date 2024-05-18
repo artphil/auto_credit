@@ -3,6 +3,7 @@ import { Button, Main } from "global/Global.styles";
 import { ArrowLeftIcon, ButtonGroup, Container, PageHeader, PageHeaderPath, PageHeaderTilte, Title } from "./Loan.styles";
 import LoanAmount from "./LoanAmount";
 import { useState } from "react";
+import LoanInstallments from "./LoanInstallments";
 
 const enum steps { AMOUNT, INSTALLMENTS, SUMMARY }
 
@@ -39,6 +40,10 @@ function LoanPage() {
         {
           applicationStep === steps['AMOUNT'] &&
           <LoanAmount />
+        }
+        {
+          applicationStep === steps['INSTALLMENTS'] &&
+          <LoanInstallments />
         }
         <ButtonGroup>
           <Button

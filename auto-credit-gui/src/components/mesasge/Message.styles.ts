@@ -6,7 +6,7 @@ export const BotImage = styled(Bot)`
 `;
 
 export const Container = styled.div`
-  background-color: ${(props) => props.theme.colors.secondaryLight};
+  background-color: ${(props) => props.theme.colors.secondaryLightest};
   padding: 1rem;
   border-radius: 1rem;
   display: flex;

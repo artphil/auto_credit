@@ -13,6 +13,7 @@ export const Card = styled.div`
   width: 33rem;
   padding: 1.5rem;
   border-radius: 1rem;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.08);
 
   @media (max-width: ${(props) => props.theme.devices.mobile}) {
     width: 100%;
@@ -39,5 +40,26 @@ export const Button = styled.button`
     background-color: ${(props) => props.theme.colors.neutralLight};
     color: ${(props) => props.theme.colors.neutralMedium};
     border: none;
+  }
+`;
+
+export const ButtonStyled = styled.button`
+  background-color: ${(props) => props.theme.colors.neutral};
+  border: none;
+  height: 4rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: ${(props) => props.theme.colors.neutralMedium};
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.08);
+
+  span {
+    color: ${(props) => props.theme.colors.primary};
+    font-weight: 600;
+  }
+
+  &.active {
+    background-color: ${(props) => props.theme.colors.secondaryLight};
   }
 `;

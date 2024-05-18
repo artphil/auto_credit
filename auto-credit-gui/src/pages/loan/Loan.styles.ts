@@ -55,3 +55,11 @@ export const ButtonGroup = styled.div`
   margin: 1rem 0;
   gap: 1rem;
 `;
+
+export const InstallmentGroup = styled.div`
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+  gap: 1rem;
+`;
