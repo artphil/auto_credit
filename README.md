@@ -18,10 +18,15 @@ DB_PASSWORD=<PASSWORD>
 DB_NAME=<SCHEMA>
 ```
 
-- Executar o comando
-  `npm start`
+- Executar o comando `npm start`
 
 ### Interface
+
+- Protótipo [Figma](https://www.figma.com/design/lpUoQHqCAJ3Ffw62mJ24Mt/Desafio-T%C3%A9cnico-2024---Credifit-LinkPJ?node-id=0-1&t=TMrZWb5xyyFi9ecH-0)
+
+Dentro da pasta `auto-credit-api`
+
+- Executar o comando `npm start`
 
 ## Dependências
 
