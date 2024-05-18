@@ -40,7 +40,7 @@ export const Subtitle = styled.p`
 `;
 
 export const Amount = styled.div`
-  background-color: ${(props) => props.theme.colors.neutral};
+  background-color: ${(props) => props.theme.colors.neutralLight};
   color: ${(props) => props.theme.colors.primaryDark};
   width: 50%;
   border-radius: 1rem;
@@ -48,6 +48,27 @@ export const Amount = styled.div`
   font-size: 2rem;
   margin: 2rem auto;
   padding: 1rem;
+  display: flex;
+  align-items: center;
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+    background: none;
+    margin: 0;
+    width: 100%;
+    border: none;
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    font-family: inherit;
+    text-align: end;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
 `;
 
 export const ButtonGroup = styled.div`

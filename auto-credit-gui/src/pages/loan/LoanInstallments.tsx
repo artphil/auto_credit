@@ -4,16 +4,21 @@ import { Amount, InstallmentGroup, Subtitle } from "./Loan.styles";
 import MessageBot from "components/mesasge/MessageBot";
 import { currencyFormat } from "util/curency";
 
-function LoanInstallments() {
+interface LoanInstallmentProps {
+  min: number;
+  max: number
+  amount: number
+  installments: number
+  setInstallments: (value: number) => void
+}
+
+function LoanInstallments(props: LoanInstallmentProps) {
+  const { amount, installments, max, min, setInstallments } = props;
   const message = 'Escolha a opção de parcelamento que melhor funcionar para você:';
-  const minInstallment = 1;
-  const maxInstallment = 4;
-  const amount = 4000;
-  const [installments, setInstallments] = useState<number>(0);
 
   function getInstallments() {
     const list = [];
-    for (let i = minInstallment; i <= maxInstallment; i++) {
+    for (let i = min; i <= max; i++) {
       list.push(i);
     }
     return list.map(times =>

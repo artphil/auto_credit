@@ -1,17 +1,32 @@
 import Header from "components/header/Header";
 import { Button, Main } from "global/Global.styles";
-import { ArrowLeftIcon, ButtonGroup, Container, PageHeader, PageHeaderPath, PageHeaderTilte, Title } from "./Loan.styles";
+import { Amount, ArrowLeftIcon, ButtonGroup, Container, PageHeader, PageHeaderPath, PageHeaderTilte, Title } from "./Loan.styles";
 import LoanAmount from "./LoanAmount";
 import { useState } from "react";
 import LoanInstallments from "./LoanInstallments";
 import LoanSummary from "./LoanSummary";
+import LoanType from "types/LoanType";
 
 const enum steps { AMOUNT, INSTALLMENTS, SUMMARY }
+
+const loanExample: LoanType = {
+  amount: 100,
+  salary: 2000,
+  status: "Aguardando",
+  times: 0,
+  deposit: false,
+  company: { id: '' },
+  employee: { id: '' },
+  employment: { id: '', company: { id: '' }, employee: { id: '' }, salary: 2000 }
+}
 
 function LoanPage() {
   const pagePath = 'Home';
   const pageName = 'Crédito Consignado';
+  const mininstallments = 1;
+  const maxinstallments = 4;
 
+  const [loanRequest, setLoanRequest] = useState<LoanType>(loanExample);
   const [applicationStep, setApplicationStep] = useState(0);
 
   function prevStep() {
@@ -24,6 +39,14 @@ function LoanPage() {
       setApplicationStep(applicationStep + 1);
   }
 
+  function updateLoan(name: string, value: number) {
+    setLoanRequest({
+      ...loanRequest,
+      [name]: value,
+    })
+  }
+
+
   return (
     <Main>
       <Header />
@@ -32,7 +55,6 @@ function LoanPage() {
           <ArrowLeftIcon />
           <PageHeaderTilte>
             <PageHeaderPath>{pagePath} / {pageName}</PageHeaderPath>
-
             <Title>
               {pageName}
             </Title>
@@ -40,15 +62,27 @@ function LoanPage() {
         </PageHeader>
         {
           applicationStep === steps['AMOUNT'] &&
-          <LoanAmount />
+          <LoanAmount
+            amount={loanRequest.amount}
+            setAmount={value => updateLoan('amount', value)}
+          />
         }
         {
           applicationStep === steps['INSTALLMENTS'] &&
-          <LoanInstallments />
+          <LoanInstallments
+            amount={loanRequest.amount}
+            installments={loanRequest.times}
+            max={maxinstallments}
+            min={mininstallments}
+            setInstallments={value => updateLoan('times', value)}
+          />
         }
         {
           applicationStep === steps['SUMMARY'] &&
-          <LoanSummary />
+          <LoanSummary
+            amount={loanRequest.amount}
+            installments={loanRequest.times}
+          />
         }
         <ButtonGroup>
           <Button
@@ -59,6 +93,7 @@ function LoanPage() {
             applicationStep < steps['SUMMARY'] &&
             <Button
               onClick={nextStep}
+              disabled={applicationStep === steps['INSTALLMENTS'] && loanRequest.times === 0}
             >Seguinte</Button>
           }
           {
