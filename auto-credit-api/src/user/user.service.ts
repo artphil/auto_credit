@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -60,5 +61,18 @@ export class UserService {
 
     await this.getOne(id);
     await this.repository.delete(id);
+  }
+
+  async login(username: string, password: string) {
+    const user = await this.repository.findOne({
+      select: { id: true, password: true },
+      where: [{ email: username }, { username: username }],
+    });
+    if (user === null) throw new UnauthorizedException('Usuário inválido');
+
+    if (user.password !== password)
+      throw new UnauthorizedException('Usuário ou senha inválidos');
+
+    return this.getOne(user.id);
   }
 }
