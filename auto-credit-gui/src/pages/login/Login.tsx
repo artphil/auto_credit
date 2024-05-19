@@ -1,16 +1,26 @@
+import { useEffect, useState } from "react";
 import { Button, Card, Main } from "global/Global.styles";
+import useAuth from "hooks/useAuth";
 import { Container, ErrorMessage, Form, Input, Logo, Title } from "./Login.styles";
-import { useState } from "react";
 
 function LoginPage() {
+  const auth = useAuth();
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
+
   function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log(username, password)
+    auth.login(username, password);
   }
+
+  useEffect(() => {
+    if (auth.authError) {
+      setError(auth.authError)
+    }
+  }, [auth.authError]);
 
   function validate() {
     if (!username) {
