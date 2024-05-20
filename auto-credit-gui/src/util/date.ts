@@ -1,5 +1,7 @@
 function dateFormat(value: Date) {
-  return value.toLocaleString("pt-BR", {});
+  return value.toLocaleString("pt-BR", {
+    dateStyle: "short",
+  });
 }
 
 export { dateFormat };

@@ -1,5 +1,5 @@
-import { useLayoutEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useGlobal } from "contexts/GlobalContext";
 import Header from "components/header/Header";
 import LoanAmount from "./components/LoanAmount";
@@ -24,6 +24,7 @@ const loanDefault: LoanRequestType = {
 function LoanPage() {
   const { employment } = useGlobal();
   const service = LoanService();
+  const navigate = useNavigate();
 
   const pagePath = 'Home';
   const pageName = 'Crédito Consignado';
@@ -66,6 +67,12 @@ function LoanPage() {
       });
     }
   }, [employment]);
+
+  useEffect(() => {
+    if (service.data) {
+      navigate('/emprestimos')
+    }
+  }, [service.data]);
 
   return (
     <Main>

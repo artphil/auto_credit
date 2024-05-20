@@ -13,12 +13,16 @@ function LoanItem(props: loanItemProps) {
 
   const [isOpen, setIsOpen] = useState(false);
 
+  const loanDate = new Date(loan.date);
+  const nextDate = new Date(loanDate.setMonth(loanDate.getMonth() + 1));
+  console.log(dateFormat(loan.date))
+
   return (
     <ItemContainer>
       <ItemHeader
         onClick={() => setIsOpen(!isOpen)}
       >
-        <CheckIcon />
+        {loan.deposit ? <CheckIcon /> : <AwaitIcon />}
         <ItemTitle>
           {loan.deposit ? 'Empréstimo Corrente' : 'SOLICITAÇÃO DE EMPRÉSTIMO'}
         </ItemTitle>
@@ -29,7 +33,7 @@ function LoanItem(props: loanItemProps) {
         <ItemContent>
           <ItemHeader>
             <ItemStatus>
-              {loan.status === 'Aprovado' ? <CheckIcon /> : <AwaitIcon />}
+              {loan.deposit ? <CheckIcon /> : <AwaitIcon />}
               {loan.description}
             </ItemStatus>
             <ItemHide
@@ -60,7 +64,7 @@ function LoanItem(props: loanItemProps) {
             <SummaryColunm>
               <SummaryField>
                 <span>Próximo Vencimento</span>
-                <p>{dateFormat(loan.date)}</p>
+                <p>{dateFormat(nextDate)}</p>
               </SummaryField>
               <SummaryField>
                 <span>Valor da parcela</span>
