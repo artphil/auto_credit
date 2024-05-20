@@ -1,23 +1,21 @@
 import Header from "components/header/Header";
 import { Button, Main } from "global/Global.styles";
-import { Amount, ArrowLeftIcon, ButtonGroup, Container, PageHeader, PageHeaderPath, PageHeaderTilte, Title } from "./Loan.styles";
+import { ArrowLeftIcon, ButtonGroup, Container, PageHeader, PageHeaderPath, PageHeaderTilte, Title } from "./Loan.styles";
 import LoanAmount from "./LoanAmount";
 import { useState } from "react";
 import LoanInstallments from "./LoanInstallments";
 import LoanSummary from "./LoanSummary";
-import LoanType from "types/LoanType";
+import { LoanRequestType } from "types/LoanType";
 
 const enum steps { AMOUNT, INSTALLMENTS, SUMMARY }
 
-const loanExample: LoanType = {
+const loanExample: LoanRequestType = {
   amount: 100,
   salary: 2000,
-  status: "Aguardando",
   times: 0,
-  deposit: false,
   company: { id: '' },
   employee: { id: '' },
-  employment: { id: '', company: { id: '' }, employee: { id: '' }, salary: 2000 }
+  employment: { id: '' }
 }
 
 function LoanPage() {
@@ -26,7 +24,7 @@ function LoanPage() {
   const mininstallments = 1;
   const maxinstallments = 4;
 
-  const [loanRequest, setLoanRequest] = useState<LoanType>(loanExample);
+  const [loanRequest, setLoanRequest] = useState<LoanRequestType>(loanExample);
   const [applicationStep, setApplicationStep] = useState(0);
 
   function prevStep() {

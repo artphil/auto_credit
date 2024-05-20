@@ -1,11 +1,15 @@
 import CompanyType from "./CompanyType";
 import PersonType from "./PersonType";
 
-type EmplaoymentType = {
+type EmploymentType = {
   id: string;
   employee: PersonType;
   company: CompanyType;
   salary: number;
 };
 
-export default EmplaoymentType;
+export type EmploymentRequestType = {
+  id: string;
+};
+
+export default EmploymentType;
