@@ -14,7 +14,7 @@ import { CompanyEntity } from 'src/company/company.entity';
 import { LoanStatusType } from './loan.type';
 import { EmploymentEntity } from 'src/employment/employment.entity';
 
-@Entity({ name: 'loans' })
+@Entity({ name: 'loans', orderBy: { date: 'DESC' } })
 export class LoanEntity {
   @ApiProperty({
     description: 'Identificador único',
