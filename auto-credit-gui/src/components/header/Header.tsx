@@ -1,21 +1,46 @@
-import { useState } from "react";
-import { ArrowDownIcon, ArrowUpIcon, Container, Logo, MenuButton, UserIcon } from "./Header.styles";
+import { useEffect, useState } from "react";
+import { useGlobal } from "contexts/GlobalContext";
+import { ArrowDownIcon, ArrowUpIcon, Container, LoginButton, Logo, Menu, MenuButton, MenuItem, MenuList, UserIcon } from "./Header.styles";
 
 function Header() {
+  const { user } = useGlobal();
+
   const [userName, setUserName] = useState('Unknow');
   const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      setUserName(user.username);
+    }
+  }, [user]);
+
 
   return (
     <Container>
       <Logo />
-      <MenuButton
-        onClick={() => setMenuOpen(!menuOpen)}
-        onBlur={() => setMenuOpen(false)}
-      >
-        <UserIcon />
-        {userName}
-        {menuOpen ? <ArrowUpIcon /> : <ArrowDownIcon />}
-      </MenuButton>
+      <Menu>
+        {
+          user ?
+            <MenuButton
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              <UserIcon />
+              {userName}
+              {menuOpen ? <ArrowUpIcon /> : <ArrowDownIcon />}
+            </MenuButton>
+            :
+            <LoginButton to={'/login'}>Entrar</LoginButton>
+        }
+        {
+          menuOpen &&
+          <MenuList>
+            <MenuItem to={'/'}>Meus dados</MenuItem>
+            <MenuItem to={'/consignado'}>Solicitar</MenuItem>
+            <MenuItem to={'/consignado'}>Solicitações</MenuItem>
+            <MenuItem to={'/login'}>Sair</MenuItem>
+          </MenuList>
+        }
+      </Menu>
     </Container>
   );
 }
