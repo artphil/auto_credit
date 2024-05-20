@@ -1,6 +1,5 @@
-import { useState } from "react";
 import { Card } from "global/Global.styles";
-import { Subtitle, SummaryField, SummaryFieldGroup } from "./Loan.styles";
+import { Subtitle, SummaryField, SummaryFieldGroup } from "../Loan.styles";
 import MessageBot from "components/mesasge/MessageBot";
 import { currencyFormat } from "util/curency";
 

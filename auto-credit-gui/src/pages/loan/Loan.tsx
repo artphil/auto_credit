@@ -2,9 +2,9 @@ import { useLayoutEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useGlobal } from "contexts/GlobalContext";
 import Header from "components/header/Header";
-import LoanAmount from "./LoanAmount";
-import LoanInstallments from "./LoanInstallments";
-import LoanSummary from "./LoanSummary";
+import LoanAmount from "./components/LoanAmount";
+import LoanInstallments from "./components/LoanInstallments";
+import LoanSummary from "./components/LoanSummary";
 import { LoanRequestType } from "types/LoanType";
 import { Button, Main } from "global/Global.styles";
 import { ArrowLeftIcon, ButtonGroup, Container, CoverButton, CoverContainer, CoverContent, PageHeader, PageHeaderPath, PageHeaderTilte, Title } from "./Loan.styles";
@@ -71,7 +71,6 @@ function LoanPage() {
     <Main>
       <Header />
       <Container>
-
         <PageHeader>
           <Link to={'/'}>
             <ArrowLeftIcon />

@@ -1,6 +1,5 @@
-import { useState } from "react";
 import { ButtonStyled, Card } from "global/Global.styles";
-import { Amount, InstallmentGroup, Subtitle } from "./Loan.styles";
+import { Amount, InstallmentGroup, Subtitle } from "../Loan.styles";
 import MessageBot from "components/mesasge/MessageBot";
 import { currencyFormat } from "util/curency";
 

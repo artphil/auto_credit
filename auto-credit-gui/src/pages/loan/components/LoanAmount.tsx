@@ -1,5 +1,5 @@
 import { Card } from "global/Global.styles";
-import { Amount, Subtitle } from "./Loan.styles";
+import { Amount, Subtitle } from "../Loan.styles";
 import MessageBot from "components/mesasge/MessageBot";
 import InputRange from "components/input/InputRange";
 
