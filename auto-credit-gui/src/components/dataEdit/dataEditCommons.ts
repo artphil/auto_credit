@@ -1,3 +1,3 @@
 export interface DataEditProps {
-  dataId: null | string;
+  dataId: string | undefined;
 }

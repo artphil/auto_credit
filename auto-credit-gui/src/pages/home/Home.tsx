@@ -4,20 +4,25 @@ import { Column, Container } from "./Home.styles";
 import UserEdit from "components/dataEdit/UserEdit";
 import PersonEdit from "components/dataEdit/PersonEdit";
 import CompanyEdit from "components/dataEdit/CompanyEdit";
+import { useGlobal } from "contexts/GlobalContext";
 
 function HomePage() {
+  const { user } = useGlobal()
+
   return (
     <Main>
       <Header />
-      <Container>
-        <Column>
-          <UserEdit dataId={null} />
-          <PersonEdit dataId={null} />
-        </Column>
-        <Column>
-          <CompanyEdit dataId={null} />
-        </Column>
-      </Container>
+      {user &&
+        <Container>
+          <Column>
+            <UserEdit dataId={user?.id} />
+            <PersonEdit dataId={undefined} />
+          </Column>
+          <Column>
+            <CompanyEdit dataId={undefined} />
+          </Column>
+        </Container>
+      }
     </Main>
   );
 }
