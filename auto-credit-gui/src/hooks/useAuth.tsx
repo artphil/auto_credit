@@ -6,9 +6,9 @@ import LocalService from "services/LocalService";
 
 function useAuth() {
   const navigate = useNavigate();
+  const { reset, setUser, user } = useGlobal();
   const auth = AuthService();
   const local = LocalService();
-  const { setUser } = useGlobal();
 
   const [authError, setAuthError] = useState('');
 
@@ -18,6 +18,7 @@ function useAuth() {
 
   function logout() {
     local.removeToken();
+    reset()
     navigate('/login')
   }
 
@@ -31,7 +32,11 @@ function useAuth() {
     }
   }, [auth.data, auth.error]);
 
-  return { authError, login, logout };
+  return {
+    authError,
+    login,
+    logout
+  };
 }
 
 export default useAuth;

@@ -1,22 +1,21 @@
-import { useState } from "react";
 import axios from "axios";
 import { configDefault } from "./configService";
+import { useState } from "react";
 import UserType from "types/UserType";
 
-function AuthService() {
+function UserService() {
   const { REACT_APP_URL_API } = process.env;
-  const url = REACT_APP_URL_API + '/login';
+  const url = REACT_APP_URL_API + '/user/';
 
   const [data, setData] = useState<UserType | null>(null);
   const [error, setError] = useState<string>('');
 
-  async function login(username: string, password: string) {
-    const body = { username, password };
+  async function get(id: string) {
     setData(null);
     setError('');
 
     try {
-      const response = await axios.post<UserType>(url, body, configDefault);
+      const response = await axios.get<UserType>(url + id, configDefault);
       setData(response.data)
     }
     catch (errorResponse: any) {
@@ -31,8 +30,8 @@ function AuthService() {
   return {
     data,
     error,
-    login
+    get
   };
 }
 
-export default AuthService;
+export default UserService;

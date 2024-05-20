@@ -1,9 +1,8 @@
 import { ReactNode, createContext, useContext, useState } from "react";
-import LocalService from "services/LocalService";
 import UserType from "types/UserType";
 
 type GlobalContextProps = {
-  getUser: () => UserType | null;
+  user: UserType | null;
   reset: () => void;
   setUser: React.Dispatch<React.SetStateAction<UserType | null>>;
 }
@@ -21,24 +20,15 @@ interface GlobalProvidertProps {
 }
 
 function GlobalProvider(props: GlobalProvidertProps) {
-  const { getToken } = LocalService();
-
   const [user, setUser] = useState<UserType | null>(null);
 
   function reset() {
     setUser(null);
   }
 
-  function getUser() {
-    if (user) {
-      return user;
-    }
-    return null;
-  }
-
   return (
     <GlobalContext.Provider value={{
-      getUser,
+      user,
       reset,
       setUser
     }}>
