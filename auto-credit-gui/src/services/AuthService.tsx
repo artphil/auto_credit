@@ -23,6 +23,7 @@ function AuthService() {
       if (axios.isAxiosError(errorResponse)) {
         setError(errorResponse.response?.data.message);
       } else {
+        setError("Erro inesperado no servidor");
         console.error(errorResponse);
       }
     }
