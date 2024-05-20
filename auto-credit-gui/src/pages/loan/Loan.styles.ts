@@ -1,11 +1,13 @@
 import styled from "styled-components";
 import { ReactComponent as ArrowLeft } from "assets/icon/arrow_left_dark.svg";
+import { Link } from "react-router-dom";
 
 export const ArrowLeftIcon = styled(ArrowLeft)`
   margin: 1rem;
 `;
 
 export const Container = styled.div`
+  position: relative;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -105,4 +107,38 @@ export const SummaryField = styled.div`
   span {
     font-weight: 600;
   }
+`;
+
+export const CoverContainer = styled.div`
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+`;
+
+export const CoverContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  background-color: ${(props) => props.theme.colors.white};
+  color: ${(props) => props.theme.colors.secondary};
+  max-width: 60%;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  border: 2px dashed ${(props) => props.theme.colors.secondary};
+`;
+
+export const CoverButton = styled(Link)`
+  background-color: ${(props) => props.theme.colors.secondary};
+  color: ${(props) => props.theme.colors.white};
+  padding: 1rem;
+  border-radius: 1rem;
 `;

@@ -25,7 +25,7 @@ function LoanAmount(props: LoanAmountProps) {
       />,00
       </Amount>
       <InputRange
-        max={10000}
+        max={50000}
         min={200}
         setValue={setAmount}
         value={amount}

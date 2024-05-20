@@ -1,17 +1,20 @@
+import { useLayoutEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useGlobal } from "contexts/GlobalContext";
 import Header from "components/header/Header";
-import { Button, Main } from "global/Global.styles";
-import { ArrowLeftIcon, ButtonGroup, Container, PageHeader, PageHeaderPath, PageHeaderTilte, Title } from "./Loan.styles";
 import LoanAmount from "./LoanAmount";
-import { useState } from "react";
 import LoanInstallments from "./LoanInstallments";
 import LoanSummary from "./LoanSummary";
 import { LoanRequestType } from "types/LoanType";
+import { Button, Main } from "global/Global.styles";
+import { ArrowLeftIcon, ButtonGroup, Container, CoverButton, CoverContainer, CoverContent, PageHeader, PageHeaderPath, PageHeaderTilte, Title } from "./Loan.styles";
+import LoanService from "services/LoanService";
 
 const enum steps { AMOUNT, INSTALLMENTS, SUMMARY }
 
-const loanExample: LoanRequestType = {
-  amount: 100,
-  salary: 2000,
+const loanDefault: LoanRequestType = {
+  amount: 0,
+  salary: 0,
   times: 0,
   company: { id: '' },
   employee: { id: '' },
@@ -19,12 +22,15 @@ const loanExample: LoanRequestType = {
 }
 
 function LoanPage() {
+  const { employment } = useGlobal();
+  const service = LoanService();
+
   const pagePath = 'Home';
   const pageName = 'Crédito Consignado';
   const mininstallments = 1;
   const maxinstallments = 4;
 
-  const [loanRequest, setLoanRequest] = useState<LoanRequestType>(loanExample);
+  const [loanRequest, setLoanRequest] = useState<LoanRequestType>(loanDefault);
   const [applicationStep, setApplicationStep] = useState(0);
 
   function prevStep() {
@@ -44,13 +50,32 @@ function LoanPage() {
     })
   }
 
+  function submit() {
+    service.create(loanRequest);
+  }
+
+  useLayoutEffect(() => {
+    if (employment) {
+      setLoanRequest({
+        amount: 200,
+        salary: Number(employment.salary),
+        times: 0,
+        company: { id: employment.company.id },
+        employee: { id: employment.employee.id },
+        employment: { id: employment.id }
+      });
+    }
+  }, [employment]);
 
   return (
     <Main>
       <Header />
       <Container>
+
         <PageHeader>
-          <ArrowLeftIcon />
+          <Link to={'/'}>
+            <ArrowLeftIcon />
+          </Link>
           <PageHeaderTilte>
             <PageHeaderPath>{pagePath} / {pageName}</PageHeaderPath>
             <Title>
@@ -96,10 +121,25 @@ function LoanPage() {
           }
           {
             applicationStep === steps['SUMMARY'] &&
-            <Button>Solicitar empréstimo</Button>
+            <Button
+              onClick={submit}
+            >
+              Solicitar empréstimo
+            </Button>
           }
         </ButtonGroup>
       </Container>
+      {
+        !employment &&
+        <CoverContainer>
+          <CoverContent>
+            Não é possivel solicitar empréstimo com os dados incompletos
+            <CoverButton to={'/'}>
+              {'< Voltar'}
+            </CoverButton>
+          </CoverContent>
+        </CoverContainer>
+      }
     </Main>
   );
 }
