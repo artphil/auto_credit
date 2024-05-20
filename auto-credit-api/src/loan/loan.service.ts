@@ -47,8 +47,6 @@ export class LoanService {
     const data = await this.repository.find({
       relations: { employee: true },
       where: { employee: { id: employeeId } },
-      loadEagerRelations: false,
-      loadRelationIds: true,
     });
     if (data === null)
       throw new NotFoundException(
