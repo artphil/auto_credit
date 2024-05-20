@@ -31,6 +31,13 @@ export class LoanEntity {
   status: LoanStatusType;
 
   @ApiProperty({
+    description: 'date da solicitação de empréstimo',
+    example: '2024-12-21',
+  })
+  @Column({ name: 'date', nullable: false })
+  date: Date;
+
+  @ApiProperty({
     description: 'Descrição do Estado',
     example: 'Reprovado por score baixo',
   })
@@ -38,7 +45,7 @@ export class LoanEntity {
   description: string;
 
   @ApiProperty({
-    description: 'salário do fucionário na data da solicitação',
+    description: 'Salário do fucionário na data da solicitação',
     example: 2500.56,
   })
   @Column({

@@ -44,7 +44,7 @@ export class LoanService {
   async getByEmployee(employeeId: string) {
     if (!validate(employeeId)) throw new BadRequestException('ID inválido');
 
-    const data = await this.repository.findOne({
+    const data = await this.repository.find({
       relations: { employee: true },
       where: { employee: { id: employeeId } },
       loadEagerRelations: false,
@@ -78,6 +78,7 @@ export class LoanService {
     loan.amount = data.amount;
     loan.times = data.times;
     loan.status = 'Aguardando';
+    loan.date = new Date();
 
     const response = await this.repository.save(loan);
     this.checkLoan(response.id);
@@ -103,7 +104,7 @@ export class LoanService {
     const installment = loan.amount / loan.times;
     if (installment > installmentMax) {
       loan.status = 'Recusado';
-      loan.description = `Parcela não pode ser superior a ${SALARY_PER_CENT * 100}% do salário`;
+      loan.description = `Parcela alta (35% do salário)`;
       this.repository.save(loan);
       return;
     }
@@ -113,13 +114,13 @@ export class LoanService {
     loan.score = score.score;
     if (loan.score < scoreMin) {
       loan.status = 'Recusado';
-      loan.description = `Score insuficiente`;
+      loan.description = `Recusado por score`;
       this.repository.save(loan);
       return;
     }
 
     loan.status = 'Aprovado';
-    loan.description = `Solicitação aprovada`;
+    loan.description = `Aguardando depósito`;
     this.repository.save(loan);
     this.depositLoan(loanId);
   }
@@ -144,6 +145,7 @@ export class LoanService {
         loadEagerRelations: false,
       });
       loan.deposit = true;
+      loan.description = `Crédito aprovado`;
       this.repository.save(loan);
     } else {
       this.depositLoan(loanId);
