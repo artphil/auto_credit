@@ -17,7 +17,7 @@ import {
 function UserEdit(props: DataEditProps) {
   const { dataId } = props;
 
-  const user = UserService();
+  const service = UserService();
 
   const [edit, setEdit] = useState(false);
   const [data, setData] = useState<UserType | null>(null);
@@ -33,20 +33,20 @@ function UserEdit(props: DataEditProps) {
 
   function cancelEdit() {
     setEdit(false);
-    setData(user.data)
+    setData(service.data)
   }
 
   useEffect(() => {
     if (dataId) {
-      user.get(dataId);
+      service.get(dataId);
     }
   }, [dataId]);
 
   useEffect(() => {
-    if (user.data) {
-      setData(user.data);
+    if (service.data) {
+      setData(service.data);
     }
-  }, [user.data]);
+  }, [service.data]);
 
   return (
     <DataContainer>

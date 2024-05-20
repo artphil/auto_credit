@@ -1,13 +1,13 @@
 import axios from "axios";
 import { configDefault } from "./configService";
 import { useState } from "react";
-import UserType from "types/UserType";
+import CompanyType from "types/CompanyType";
 
-function UserService() {
+function CompanyService() {
   const { REACT_APP_URL_API } = process.env;
-  const url = REACT_APP_URL_API + '/user/';
+  const url = REACT_APP_URL_API + '/company/';
 
-  const [data, setData] = useState<UserType | null>(null);
+  const [data, setData] = useState<CompanyType | null>(null);
   const [error, setError] = useState<string>('');
 
   async function get(id: string) {
@@ -15,7 +15,7 @@ function UserService() {
     setError('');
 
     try {
-      const response = await axios.get<UserType>(url + id, configDefault);
+      const response = await axios.get<CompanyType>(url + id, configDefault);
       setData(response.data)
     }
     catch (errorResponse: any) {
@@ -35,4 +35,4 @@ function UserService() {
   };
 }
 
-export default UserService;
+export default CompanyService;
