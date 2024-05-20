@@ -46,6 +46,7 @@ export const Button = styled.button`
 export const ButtonStyled = styled.button`
   background-color: ${(props) => props.theme.colors.neutral};
   border: none;
+  border-left: 10px solid ${(props) => props.theme.colors.secondary};
   height: 4rem;
   padding: 1rem;
   border-radius: 1rem;

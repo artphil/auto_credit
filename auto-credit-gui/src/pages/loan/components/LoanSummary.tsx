@@ -1,5 +1,5 @@
 import { Card } from "global/Global.styles";
-import { Subtitle, SummaryField, SummaryFieldGroup } from "../Loan.styles";
+import { Subtitle, SummaryColunm, SummaryField, SummaryFieldGroup } from "../Loan.styles";
 import MessageBot from "components/mesasge/MessageBot";
 import { currencyFormat } from "util/curency";
 
@@ -19,20 +19,23 @@ function LoanSummary(props: loanSummaryProps) {
       </Subtitle>
       <MessageBot text={message} />
       <SummaryFieldGroup>
-        <SummaryField>
-          <span>Valor a Creditar</span>
-          <p>R$ {currencyFormat(amount)}</p>
-        </SummaryField>
-        <SummaryField>
-          <span>Valor a financiar</span>
-          <p>R$ {currencyFormat(amount)}</p>
-        </SummaryField>
-        <SummaryField>
-          <span>Parcelamento</span>
-          <p>{installments}x de R$ {currencyFormat(amount / installments)}</p>
-        </SummaryField>
+        <SummaryColunm>
+          <SummaryField>
+            <span>Valor a Creditar</span>
+            <p>R$ {currencyFormat(amount)}</p>
+          </SummaryField>
+          <SummaryField>
+            <span>Parcelamento</span>
+            <p>{installments}x de R$ {currencyFormat(amount / installments)}</p>
+          </SummaryField>
+        </SummaryColunm>
+        <SummaryColunm>
+          <SummaryField>
+            <span>Valor a financiar</span>
+            <p>R$ {currencyFormat(amount)}</p>
+          </SummaryField>
+        </SummaryColunm>
       </SummaryFieldGroup>
-
     </Card>
   );
 }
