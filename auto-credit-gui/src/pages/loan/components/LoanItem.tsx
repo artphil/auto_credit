@@ -1,7 +1,16 @@
 import { useState } from "react";
-import { ArrowDownIcon, ArrowUpIcon, CheckIcon, EyeIcon, ItemContainer, ItemContent, ItemHeader, ItemHide, ItemStatus, ItemTitle, SummaryColunm, SummaryField, SummaryFieldGroup } from "../Loan.styles";
+import { ArrowDownIcon, ArrowUpIcon, AwaitIcon, CheckIcon, EyeIcon, ItemContainer, ItemContent, ItemHeader, ItemHide, ItemStatus, ItemTitle, SummaryColunm, SummaryField, SummaryFieldGroup } from "../Loan.styles";
+import { dateFormat } from "util/date";
+import LoanType from "types/LoanType";
+import { currencyFormat } from "util/curency";
 
-function LoanItem() {
+interface loanItemProps {
+  loan: LoanType;
+}
+
+function LoanItem(props: loanItemProps) {
+  const { loan } = props;
+
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -10,7 +19,9 @@ function LoanItem() {
         onClick={() => setIsOpen(!isOpen)}
       >
         <CheckIcon />
-        <ItemTitle>SOLICITAÇÃO DE EMPRÉSTIMO 01</ItemTitle>
+        <ItemTitle>
+          {loan.deposit ? 'Empréstimo Corrente' : 'SOLICITAÇÃO DE EMPRÉSTIMO'}
+        </ItemTitle>
         {isOpen ? <ArrowUpIcon /> : <ArrowDownIcon />}
       </ItemHeader>
       {
@@ -18,8 +29,8 @@ function LoanItem() {
         <ItemContent>
           <ItemHeader>
             <ItemStatus>
-              <CheckIcon />
-              Crédito aprovado
+              {loan.status === 'Aprovado' ? <CheckIcon /> : <AwaitIcon />}
+              {loan.description}
             </ItemStatus>
             <ItemHide
               onClick={() => setIsOpen(false)}
@@ -32,25 +43,28 @@ function LoanItem() {
             <SummaryColunm>
               <SummaryField>
                 <span>Empresa</span>
-                <p>Seguros Seguradora</p>
+                <p>{loan.company.name}</p>
               </SummaryField>
-              <SummaryField>
-                <span>Total Financiado</span>
-                <p>R$ 10.000,00</p>
-              </SummaryField>
+              {
+                loan.status === 'Aprovado' &&
+                <SummaryField>
+                  <span>Total Financiado</span>
+                  <p>R$ {currencyFormat(loan.amount)}</p>
+                </SummaryField>
+              }
               <SummaryField>
                 <span>Número de parcelas</span>
-                <p>1 x</p>
+                <p>{loan.times} x</p>
               </SummaryField>
             </SummaryColunm>
             <SummaryColunm>
               <SummaryField>
                 <span>Próximo Vencimento</span>
-                <p>29/11/2022</p>
+                <p>{dateFormat(loan.date)}</p>
               </SummaryField>
               <SummaryField>
                 <span>Valor da parcela</span>
-                <p>R$ 5.000,00</p>
+                <p>R$ {currencyFormat(loan.amount / loan.times)}</p>
               </SummaryField>
             </SummaryColunm>
           </SummaryFieldGroup>

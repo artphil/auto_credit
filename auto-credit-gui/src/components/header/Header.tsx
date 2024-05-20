@@ -36,7 +36,7 @@ function Header() {
           <MenuList>
             <MenuItem to={'/'}>Meus dados</MenuItem>
             <MenuItem to={'/consignado'}>Solicitar</MenuItem>
-            <MenuItem to={'/consignado'}>Solicitações</MenuItem>
+            <MenuItem to={'/emprestimos'}>Solicitações</MenuItem>
             <MenuItem to={'/logout'}>Sair</MenuItem>
           </MenuList>
         }

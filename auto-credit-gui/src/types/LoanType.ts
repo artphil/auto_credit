@@ -7,11 +7,12 @@ export type LoanStatusType = "Aguardando" | "Aprovado" | "Recusado";
 type LoanType = {
   id: string;
   status: LoanStatusType;
-  description?: string;
+  description: string;
   salary: number;
   amount: number;
   score: number;
   times: number;
+  date: Date;
   deposit: boolean;
   employment: EmploymentType;
   employee: PersonType;
