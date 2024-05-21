@@ -18,11 +18,11 @@ export class UserEntity {
   id: string;
 
   @ApiProperty({ description: 'Nome de usuário', example: 'Nepomuceno' })
-  @Column({ name: 'email', length: 100, nullable: false })
+  @Column({ name: 'email', length: 100, nullable: false, unique: true })
   email: string;
 
   @ApiProperty({ description: 'Email', example: 'nepo@email.com' })
-  @Column({ name: 'username', length: 70, nullable: false })
+  @Column({ name: 'username', length: 70, nullable: false, unique: true })
   username: string;
 
   @ApiProperty({

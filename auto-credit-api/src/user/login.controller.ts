@@ -14,7 +14,7 @@ export class LoginController {
     type: UserResponseDTO,
   })
   @Post()
-  async create(@Body() user: UserLoginDTO) {
+  async login(@Body() user: UserLoginDTO) {
     return await this.service.login(user.username, user.password);
   }
 }

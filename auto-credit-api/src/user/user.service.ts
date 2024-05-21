@@ -37,6 +37,7 @@ export class UserService {
 
   async create(data: UserCreateDTO) {
     const emailOrUsername = await this.repository.findOne({
+      select: { email: true, username: true },
       where: [{ email: data.email }, { username: data.username }],
     });
     if (emailOrUsername !== null) {
@@ -52,14 +53,29 @@ export class UserService {
   async update(id: string, data: UserUpdateDTO) {
     if (!validate(id)) throw new BadRequestException('ID inválido');
 
-    await this.repository.update(id, data);
-    return await this.getOne(id);
+    const emailOrUsername = await this.repository.findOne({
+      select: { id: true, email: true, username: true },
+      where: [{ email: data.email }, { username: data.username }],
+    });
+    if (emailOrUsername !== null) {
+      if (emailOrUsername.id !== id && emailOrUsername.email === data.email)
+        throw new BadRequestException('Email já cadastrado');
+      if (
+        emailOrUsername.id !== id &&
+        emailOrUsername.username === data.username
+      )
+        throw new BadRequestException('Usuário já cadastrado');
+    }
+    const response = await this.repository.update(id, data);
+
+    if (!response) throw new NotFoundException('Usuário não encontrado');
+
+    return response;
   }
 
   async remove(id: string) {
     if (!validate(id)) throw new BadRequestException('ID inválido');
 
-    await this.getOne(id);
     await this.repository.delete(id);
   }
 
