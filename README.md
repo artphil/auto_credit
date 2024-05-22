@@ -1,6 +1,6 @@
 # Auto Credito
 
-Mini sistema que avialia e concede crédito consigniado de forma automática
+Mini sistema que avialia e concede crédito consigniado automático
 
 ## Como rodar a aplicação
 
@@ -26,6 +26,12 @@ DB_NAME=<SCHEMA>
 
 Dentro da pasta `auto-credit-api`
 
+- Criar um arquivo de nome `.env.local` coma as configurações de acesso a API no seguinte formato
+
+```sh
+REACT_APP_URL_API=<API_URL>
+```
+
 - Executar o comando `npm start`
 
 ## Dependências
@@ -33,10 +39,16 @@ Dentro da pasta `auto-credit-api`
 - API
   - NestJS: Framework
   - Swagger: Documentação
+  - UUID: Gerador de ID unico
+  - Postgres(PG): driver do banco de dados
+- Interface
+  - React: Biblioteca principal
+  - React router dom: Gerenciador de rotas
+  - Styled Component: Componente CSS
 
 ## Entendendo o problema
 
-A ideia deste projeto é desenvolver uma aplicação onde o cliente possa solicitar um empréstimo de forma ágil, economizando tempo e recursos tanto do tomador quanto do concessor do crédito. Para isso o cliente poderá acessar o sistema e fazer a solicitação do crédito pretendido e se este atender a todos os requisitos necessários lhe será concedida a quantia solocitada de forma automática e simplificada.
+O objetivo deste projeto é desenvolver uma aplicação onde o cliente possa solicitar um empréstimo de forma ágil, economizando tempo e recursos tanto do tomador quanto do concessor do crédito. Para isso o cliente poderá acessar o sistema e fazer a solicitação do crédito pretendido e se este atender a todos os requisitos necessários lhe será concedida a quantia solocitada de forma automática e simplificada.
 Os requisitos são:
 
 - O cliente estar vinculada a uma empresa conveniada à concessora.
@@ -67,9 +79,6 @@ Company: str cnpj
 Company: str reason
 Employment: uuid id
 Employment: float salary
-Bank: uuid id
-Bank: str code
-Bank: str name
 Loan: uuid id
 Loan: int score
 Loan: str status
@@ -81,7 +90,6 @@ Person --> User
 Employment --> Person
 Employment --> Company
 Company --> Person
-Person --> Bank
 Loan --> Person
 Loan --> Company
 ```
