@@ -4,8 +4,9 @@ import { PersonService } from './person.service';
 import { Repository } from 'typeorm';
 import { PersonEntity } from './person.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { UserEntity } from 'src/user/user.entity';
+import { PersonResponseDTO } from './dto/personResponse.dto';
 
 export type MockType<T> = {
   [P in keyof T]?: jest.Mock<any>;
@@ -47,6 +48,11 @@ const personCreateDTO: PersonCreateDTO = {
   user: userEntity,
 };
 
+const personResponseDTO: PersonResponseDTO = {
+  id: '74b79561-f37c-41fb-980e-726fbcc9f8b5',
+  name: 'Joca',
+};
+
 describe('PersonService', () => {
   let service: PersonService;
   let repositoryMock: MockType<Repository<PersonEntity>>;
@@ -56,7 +62,7 @@ describe('PersonService', () => {
       providers: [
         PersonService,
         {
-          provide: getRepositoryToken(PersonService),
+          provide: getRepositoryToken(PersonEntity),
           useFactory: repositoryMockFactory,
         },
       ],
@@ -83,5 +89,86 @@ describe('PersonService', () => {
     expect(service.remove('123456')).rejects.toEqual(
       new BadRequestException('ID inválido'),
     );
+  });
+
+  it('should find a person', async () => {
+    repositoryMock.findOne.mockReturnValue(personEntity);
+    expect(await service.getOne(personEntity.id)).toEqual(personEntity);
+  });
+
+  it('should do not found a person', async () => {
+    repositoryMock.findOne.mockReturnValue(null);
+    await expect(service.getOne(personEntity.id)).rejects.toEqual(
+      new NotFoundException('Pessoa não encontrada'),
+    );
+  });
+
+  it('should find all persons', async () => {
+    const personList = [personResponseDTO, personResponseDTO];
+    repositoryMock.find.mockReturnValue(personList);
+    expect(await service.getAll()).toEqual(personList);
+  });
+
+  it('should find no persons', async () => {
+    const personList = [];
+    repositoryMock.find.mockReturnValue(personList);
+    expect(await service.getAll()).toEqual(personList);
+  });
+
+  it('should create person', async () => {
+    repositoryMock.findOne.mockReturnValue(null);
+    repositoryMock.save.mockReturnValue(personResponseDTO);
+    expect(await service.create(personCreateDTO)).toEqual(personResponseDTO);
+  });
+
+  it('should do not create person: cpf in use', async () => {
+    repositoryMock.findOne.mockReturnValue(personEntity);
+    repositoryMock.save.mockReturnValue(personResponseDTO);
+    await expect(service.create(personCreateDTO)).rejects.toEqual(
+      new BadRequestException('CPF já cadastrado'),
+    );
+  });
+
+  it('should do not create person: user has data', async () => {
+    const person: PersonEntity = { ...personEntity, cpf: '32165498798' };
+    repositoryMock.findOne.mockReturnValue(person);
+    repositoryMock.save.mockReturnValue(personResponseDTO);
+    await expect(service.create(personCreateDTO)).rejects.toEqual(
+      new BadRequestException('Usuário já possui cadastro'),
+    );
+  });
+
+  it('should update person', async () => {
+    repositoryMock.findOne.mockReturnValue(personEntity);
+    repositoryMock.update.mockReturnValue(personEntity);
+    expect(await service.update(personEntity.id, personCreateDTO)).toEqual(
+      personEntity,
+    );
+  });
+
+  it('should do not update person: person not found', async () => {
+    repositoryMock.findOne.mockReturnValue(null);
+    repositoryMock.update.mockReturnValue(null);
+    await expect(
+      service.update(personEntity.id, personCreateDTO),
+    ).rejects.toEqual(new NotFoundException('Pessoa não encontrada'));
+  });
+
+  it('should do not update person: cpf in use', async () => {
+    const person = { ...personEntity, id: '123' };
+    repositoryMock.findOne.mockReturnValue(person);
+    repositoryMock.update.mockReturnValue(personEntity);
+    await expect(
+      service.update(personEntity.id, personCreateDTO),
+    ).rejects.toEqual(new BadRequestException('CPF já cadastrado'));
+  });
+
+  it('should do not update person: user in use', async () => {
+    const person = { ...personEntity, id: '123', cpf: '32165498798' };
+    repositoryMock.findOne.mockReturnValue(person);
+    repositoryMock.update.mockReturnValue(personEntity);
+    await expect(
+      service.update(personEntity.id, personCreateDTO),
+    ).rejects.toEqual(new BadRequestException('Usuário já possui cadastro'));
   });
 });
