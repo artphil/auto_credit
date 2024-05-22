@@ -52,7 +52,7 @@ O objetivo deste projeto é desenvolver uma aplicação onde o cliente possa sol
 Os requisitos são:
 
 - O cliente estar vinculada a uma empresa conveniada à concessora.
-- O valor solicitado não exceder a 35% do salário
+- A parcela de pagamento não exceder a 35% do salário
 - O cliente ter score mínimo suficiente para o valor
 
 ### Agentes
