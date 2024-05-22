@@ -18,6 +18,8 @@ DB_PASSWORD=<PASSWORD>
 DB_NAME=<SCHEMA>
 ```
 
+0
+
 - Executar o comando `npm start`
 
 ### Interface
@@ -38,8 +40,8 @@ REACT_APP_URL_API=<API_URL>
 
 - API
   - NestJS: Framework
-  - Swagger: Documentação
-  - UUID: Gerador de ID unico
+  - Swagger: Documentação `<API_URL>/doc`
+  - UUID: Gerador de ID único
   - Postgres(PG): driver do banco de dados
 - Interface
   - React: Biblioteca principal
@@ -51,7 +53,7 @@ REACT_APP_URL_API=<API_URL>
 O objetivo deste projeto é desenvolver uma aplicação onde o cliente possa solicitar um empréstimo de forma ágil, economizando tempo e recursos tanto do tomador quanto do concessor do crédito. Para isso o cliente poderá acessar o sistema e fazer a solicitação do crédito pretendido e se este atender a todos os requisitos necessários lhe será concedida a quantia solocitada de forma automática e simplificada.
 Os requisitos são:
 
-- O cliente estar vinculada a uma empresa conveniada à concessora.
+- O cliente estar vinculado a uma empresa conveniada à concessora.
 - A parcela de pagamento não exceder a 35% do salário
 - O cliente ter score mínimo suficiente para o valor
 
