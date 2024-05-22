@@ -94,4 +94,5 @@ Employment --> Company
 Company --> Person
 Loan --> Person
 Loan --> Company
+Loan --> Employment
 ```
