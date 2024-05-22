@@ -11,6 +11,7 @@ export class LoginController {
 
   @ApiResponse({
     status: 200,
+    description: 'Efetua a entrada no sistema',
     type: UserResponseDTO,
   })
   @Post()

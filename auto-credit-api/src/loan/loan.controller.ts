@@ -19,7 +19,17 @@ export class LoanController {
 
   @ApiResponse({
     status: 200,
-    description: 'Lista de solicitações de empréstimo',
+    description: 'recupera uma solicitação de empréstimo',
+    type: LoanEntity,
+  })
+  @Get(':id')
+  async getOne(@Param('id') id: string) {
+    return await this.service.getOne(id);
+  }
+
+  @ApiResponse({
+    status: 200,
+    description: 'Todas as solicitações de empréstimo',
     type: Array<LoanEntity>,
   })
   @Get()
@@ -29,19 +39,21 @@ export class LoanController {
 
   @ApiResponse({
     status: 200,
-    description: 'Solicitação de empréstimo',
-    type: LoanEntity,
+    description:
+      'Todas as solicitações de empréstimo vinculadas a um funcionário por ID',
+    type: Array<LoanEntity>,
   })
-  @Get(':id')
-  async getOne(@Param('id') id: string) {
-    return await this.service.getOne(id);
-  }
-
   @Get('employee/:id')
   async getByEmployee(@Param('id') id: string) {
     return await this.service.getByEmployee(id);
   }
 
+  @ApiResponse({
+    status: 200,
+    description:
+      'Todas as solicitações de empréstimo vinculadas a uma empresa por ID',
+    type: Array<LoanEntity>,
+  })
   @Get('company/:id')
   async getByCompany(@Param('id') id: string) {
     return await this.service.getByCompany(id);
@@ -49,7 +61,7 @@ export class LoanController {
 
   @ApiResponse({
     status: 201,
-    description: 'Solicitação de empréstimo',
+    description: 'Cria uma solicitação de empréstimo',
     type: LoanEntity,
   })
   @Post()
@@ -57,11 +69,20 @@ export class LoanController {
     return await this.service.create(data);
   }
 
+  @ApiResponse({
+    status: 200,
+    description: 'Atualiza os dados de uma solicitação de empréstimo por ID',
+    type: LoanEntity,
+  })
   @Put(':id')
   async update(@Param('id') id: string, @Body() data: LoanCreateDTO) {
     return await this.service.update(id, data);
   }
 
+  @ApiResponse({
+    status: 200,
+    description: 'Apaga os dados de uma solicitação de empréstimo por ID',
+  })
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.service.remove(id);
