@@ -63,4 +63,14 @@ export const ButtonStyled = styled.button`
   &.active {
     background-color: ${(props) => props.theme.colors.secondaryLight};
   }
+
+  &:disabled {
+    background-color: ${(props) => props.theme.colors.neutralMedium};
+    color: ${(props) => props.theme.colors.neutralDark};
+    border-color: ${(props) => props.theme.colors.neutralDark};
+
+    span {
+      color: ${(props) => props.theme.colors.neutralDark};
+    }
+  }
 `;

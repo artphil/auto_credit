@@ -28,8 +28,9 @@ function LoanPage() {
 
   const pagePath = 'Home';
   const pageName = 'Crédito Consignado';
-  const mininstallments = 1;
-  const maxinstallments = 4;
+  const minInstallments = 1;
+  const maxInstallments = 4;
+  const loanPerCent = 0.35;
 
   const [loanRequest, setLoanRequest] = useState<LoanRequestType>(loanDefault);
   const [applicationStep, setApplicationStep] = useState(0);
@@ -92,8 +93,11 @@ function LoanPage() {
         {
           applicationStep === steps['AMOUNT'] &&
           <LoanAmount
+            salary={loanRequest.salary}
             amount={loanRequest.amount}
             setAmount={value => updateLoan('amount', value)}
+            loanPerCent={loanPerCent}
+            maxInstallments={maxInstallments}
           />
         }
         {
@@ -101,8 +105,10 @@ function LoanPage() {
           <LoanInstallments
             amount={loanRequest.amount}
             installments={loanRequest.times}
-            max={maxinstallments}
-            min={mininstallments}
+            salary={loanRequest.salary}
+            loanPerCent={loanPerCent}
+            max={maxInstallments}
+            min={minInstallments}
             setInstallments={value => updateLoan('times', value)}
           />
         }

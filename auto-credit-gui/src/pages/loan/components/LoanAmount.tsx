@@ -5,12 +5,17 @@ import InputRange from "components/input/InputRange";
 
 interface LoanAmountProps {
   amount: number;
+  salary: number;
+  loanPerCent: number;
+  maxInstallments: number;
   setAmount: (value: number) => void;
 }
 
 function LoanAmount(props: LoanAmountProps) {
-  const { amount, setAmount } = props;
+  const { amount, loanPerCent, maxInstallments, salary, setAmount } = props;
   const message = 'Você possui saldo para Crédito Consignado pela empresa Seguros Seguradora. Faça uma simulação! Digite quanto você precisa:';
+  const maxLoan = salary * loanPerCent * maxInstallments;
+  const minLoan = 10;
 
   return (
     <Card>
@@ -25,8 +30,8 @@ function LoanAmount(props: LoanAmountProps) {
       />,00
       </Amount>
       <InputRange
-        max={50000}
-        min={200}
+        max={maxLoan}
+        min={minLoan}
         setValue={setAmount}
         value={amount}
       />
