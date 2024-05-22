@@ -109,6 +109,14 @@ export class LoanService {
 
     const scoreMin = this.scoreBySalary(loan.salary);
     const score = await this.scoreService.getScore(loan.employee.cpf);
+
+    if (!score) {
+      loan.status = 'Recusado';
+      loan.description = `Falha - Entre em contato`;
+      this.repository.save(loan);
+      return;
+    }
+
     loan.score = score.score;
     if (loan.score < scoreMin) {
       loan.status = 'Recusado';
@@ -132,10 +140,22 @@ export class LoanService {
       return 600;
     } else if (salary <= 12000) {
       return 700;
+    } else {
+      return 900;
     }
   }
 
-  async depositLoan(loanId: string) {
+  async depositLoan(loanId: string, attempts = 10) {
+    if (attempts === 0) {
+      const loan = await this.repository.findOne({
+        where: { id: loanId },
+        loadEagerRelations: false,
+      });
+      loan.description = `Falha - Entre em contato`;
+      this.repository.save(loan);
+      return;
+    }
+
     const response = await this.bankService.deposit();
     if (response?.ok) {
       const loan = await this.repository.findOne({
@@ -146,21 +166,23 @@ export class LoanService {
       loan.description = `Crédito aprovado`;
       this.repository.save(loan);
     } else {
-      this.depositLoan(loanId);
+      this.depositLoan(loanId, attempts - 1);
     }
   }
 
   async update(id: string, data: LoanCreateDTO) {
     if (!validate(id)) throw new BadRequestException('ID inválido');
 
-    await this.repository.update(id, data);
-    return await this.getOne(id);
+    const response = await this.repository.update(id, data);
+
+    if (!response) throw new NotFoundException('Solicitação não encontrada');
+
+    return response;
   }
 
   async remove(id: string) {
     if (!validate(id)) throw new BadRequestException('ID inválido');
 
-    await this.getOne(id);
     await this.repository.delete(id);
   }
 }

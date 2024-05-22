@@ -34,7 +34,7 @@ export class CompanyService {
     return list.map((company) => new CompanyResponseDTO(company));
   }
 
-  async getbyPerson(userId: string) {
+  async getByPerson(userId: string) {
     if (!validate(userId)) throw new BadRequestException('ID inválido');
 
     const data = await this.repository.findOne({
@@ -47,18 +47,22 @@ export class CompanyService {
   }
 
   async create(data: CompanyCreateDTO) {
-    const cnpj = await this.repository.findOne({
-      where: { cnpj: data.cnpj },
+    const cnpjOrRepres = await this.repository.findOne({
+      where: [
+        { cnpj: data.cnpj },
+        { representative: { id: data.representative.id } },
+      ],
     });
-    if (cnpj !== null) {
-      throw new BadRequestException('CNPJ já cadastrado');
-    }
-    if (data.representative) {
-      const company = await this.repository.findOne({
-        where: { representative: { id: data.representative.id } },
-      });
-      if (company !== null)
+    if (cnpjOrRepres !== null) {
+      if (cnpjOrRepres.cnpj === data.cnpj) {
+        throw new BadRequestException('CNPJ já cadastrado');
+      }
+      if (
+        data.representative &&
+        cnpjOrRepres.representative.id === data.representative.id
+      ) {
         throw new BadRequestException('Representante já cadastrado');
+      }
     }
     const newCompany = await this.repository.save(data);
     return new CompanyResponseDTO(newCompany);
@@ -67,16 +71,29 @@ export class CompanyService {
   async update(id: string, data: CompanyCreateDTO) {
     if (!validate(id)) throw new BadRequestException('ID inválido');
 
-    if (data.representative) {
-      const company = await this.repository.findOne({
-        where: { representative: { id: data.representative.id } },
-      });
-      if (company !== null && company.id !== id)
+    const cnpjOrRepres = await this.repository.findOne({
+      where: [
+        { cnpj: data.cnpj },
+        { representative: { id: data.representative.id } },
+      ],
+    });
+    if (cnpjOrRepres !== null && cnpjOrRepres.id !== id) {
+      if (cnpjOrRepres.cnpj === data.cnpj) {
+        throw new BadRequestException('CNPJ já cadastrado');
+      }
+      if (
+        data.representative &&
+        cnpjOrRepres.representative.id === data.representative.id
+      ) {
         throw new BadRequestException('Representante já cadastrado');
+      }
     }
 
-    await this.repository.update(id, data);
-    return await this.getOne(id);
+    const response = await this.repository.update(id, data);
+
+    if (!response) throw new NotFoundException('Empresa não encontrada');
+
+    return response;
   }
 
   async remove(id: string) {

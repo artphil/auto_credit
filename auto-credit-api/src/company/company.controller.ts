@@ -28,7 +28,7 @@ export class CompanyController {
 
   @Get('representative/:id')
   async getbyUser(@Param('id') id) {
-    return await this.service.getbyPerson(id);
+    return await this.service.getByPerson(id);
   }
 
   @Post()

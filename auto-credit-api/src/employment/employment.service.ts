@@ -42,10 +42,6 @@ export class EmploymentService {
       relations: { employee: true },
       where: { employee: { id: employeeId } },
     });
-    if (data === null)
-      throw new NotFoundException(
-        'Relação de trabalho não encontrada para esse funcionário',
-      );
 
     return data;
   }
@@ -83,8 +79,12 @@ export class EmploymentService {
       throw new BadRequestException('Funcionário já possui cadastro');
     }
 
-    await this.repository.update(id, data);
-    return await this.getOne(id);
+    const response = await this.repository.update(id, data);
+
+    if (!response)
+      throw new NotFoundException('Relação de trabalho não encontrada');
+
+    return response;
   }
 
   async remove(id: string) {

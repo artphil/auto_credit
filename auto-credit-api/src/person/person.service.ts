@@ -47,19 +47,14 @@ export class PersonService {
   }
 
   async create(data: PersonCreateDTO) {
-    const cpf = await this.repository.findOne({
-      where: { cpf: data.cpf },
+    const cpfOrUser = await this.repository.findOne({
+      where: [{ cpf: data.cpf }, { user: { id: data.user.id } }],
     });
-    if (cpf !== null) {
-      throw new BadRequestException('CPF já cadastrado');
-    }
-
-    if (data.user) {
-      const pesron = await this.repository.findOne({
-        relations: { user: true },
-        where: { user: { id: data.user.id } },
-      });
-      if (pesron !== null) {
+    if (cpfOrUser !== null) {
+      if (cpfOrUser.cpf === data.cpf) {
+        throw new BadRequestException('CPF já cadastrado');
+      }
+      if (data.user && cpfOrUser.user.id === data.user.id) {
         throw new BadRequestException('Usuário já possui cadastro');
       }
     }
@@ -71,18 +66,23 @@ export class PersonService {
   async update(id: string, data: PersonCreateDTO) {
     if (!validate(id)) throw new BadRequestException('ID inválido');
 
-    if (data.user) {
-      const pesron = await this.repository.findOne({
-        relations: { user: true },
-        where: { user: { id: data.user.id } },
-      });
-      if (pesron !== null && pesron.id !== id) {
+    const cpfOrUser = await this.repository.findOne({
+      where: [{ cpf: data.cpf }, { user: { id: data.user.id } }],
+    });
+    if (cpfOrUser !== null && cpfOrUser.id !== id) {
+      if (cpfOrUser.cpf === data.cpf) {
+        throw new BadRequestException('CPF já cadastrado');
+      }
+      if (data.user && cpfOrUser.user.id === data.user.id) {
         throw new BadRequestException('Usuário já possui cadastro');
       }
     }
 
-    await this.repository.update(id, data);
-    return await this.getOne(id);
+    const response = await this.repository.update(id, data);
+
+    if (!response) throw new NotFoundException('Pessoa não encontrada');
+
+    return response;
   }
 
   async remove(id: string) {
